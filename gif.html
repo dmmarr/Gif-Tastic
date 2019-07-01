@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gifs</title>
+</head>
+
+<body>
+    <!-- create the buttons -->
+    <div id="button">
+        <button data-person="Michael Jackson">
+            Michael Jackson
+            <!-- put the saying inside of here -->
+        </button>
+        <button data-person="Cardi B">
+            Cardi B
+            <!-- quote -->
+        </button>
+        <!-- keep putting the buttons in here -->
+        <button data-person="Will Smith">
+            Will Smith
+
+        </button>
+        <button data-person="Johnny Depp ">
+            Johnny Depp
+        </button>
+        <button data-person="Brad Pitt">
+            Brad Pitt
+        </button>
+        <button data-person="Miley Cyrus">
+
+            Miley Cyrus
+        </button>
+        <button data-person="Leonardo DiCaprio">
+
+            Leonardo DiCaprio
+        </button>
+        <button data-person="Tom Cruise">
+
+            Tom Cruise
+        </button>
+        <button data-person="Morgan Freeman">
+            Morgan Freeman
+
+        </button>
+        <button data-person="Samuel J. Jackson">
+
+            Samuel J. Jackson
+        </button>
+    </div>
+    <div id="gifsPopup">
+        All the magic appears here
+    </div>
+    <!-- jquery is linked -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+    // created on click button 
+        $("#button").on("click", function () {
+            // variable created = function is getting the data person from on top
+            var famousPerson = $(this).att("data-person");
+            // this is the website that I got from api.giphy.com, 
+            // i stopped at q= because that is what it is searching
+            var gifApi = "https:/api.giphy.com/v1/gifs/search?q="
+            // below is my api key that i created, which I don't undertsand why it doesnt work
+            // and the limited search is 10
+                + famousPerson + "&api_key=M7zRQgAcI8f3zqvYkb5yCtsSYbBH63rG&limit=10"
+// right here is the website that it is going to get, so from the varible gifapi
+            $.ajax({
+                url: gifApi,
+                method: "GET"
+            })
+                .then(function (response) {
+                    var results = response.data;
+// below is the loop plus the few things it asked for, like the rating
+                    for (var i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+                        var rating = results[i].ratings;
+                        var p = $("<p>").text("Ratings:" + rating);
+                        var personImage = $("<img>");
+                        personImage.attr("src", results[i].images.fixed_height.url);
+
+                        gifDiv.prepend(p);
+                        gifDiv.prepend(personImage);
+// add everything together
+                        $("#gifsPopup").prepend(gifDiv);
+                    }
+                });
+        });
+// it didnt work, and i didnt know how to do the onlick animation
+    </script>
+
+
+
+
+</body>
+
+</html>
